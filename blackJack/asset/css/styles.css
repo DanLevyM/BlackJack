@@ -1,0 +1,20 @@
+body {
+  background-image: url("../img/gradienta-m_7p45JfXQo-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  padding: 1em 0;
+}
+
+#root {
+  background-color: rgb(255, 255, 255);
+  height: 40em;
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 5px;
+}
