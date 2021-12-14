@@ -12,16 +12,29 @@ export default class Controller {
     this.view = view;
 
     this.view.bindNewDeck(this.handleNewDeck);
+    this.view.bindDrawCard(this.handleDrawCard, this.getCard);
 
     // ---------------------TESTING --------------------------
     this.view.bindCheckDeckButton(this.handleCheckDeckButton);
+    this.view.bindCheckCardButton(this.handleCheckCardButton);
   }
 
   /**
    * @function
    */
   handleNewDeck = async () => {
-    return await this.model.drawDeck();
+    return await this.model.newDeck();
+  };
+
+  handleDrawCard = async () => {
+    return await this.model.drawCard();
+  };
+
+  /**
+   * @function
+   */
+  getCard = async () => {
+    await this.model.getCard();
   };
 
   // -------------------------------------------------------
@@ -33,5 +46,12 @@ export default class Controller {
    */
   handleCheckDeckButton = async () => {
     this.model.getDeck();
+  };
+
+  /**
+   * @function
+   */
+  handleCheckCardButton = async () => {
+    this.model.getCard();
   };
 }
