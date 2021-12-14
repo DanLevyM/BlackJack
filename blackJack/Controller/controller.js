@@ -12,7 +12,7 @@ export default class Controller {
     this.view = view;
 
     this.view.bindNewDeck(this.handleNewDeck);
-    this.view.bindDrawCard(this.handleDrawCard, this.getCard);
+    this.view.bindDrawCard(this.handleDrawCard);
 
     // ---------------------TESTING --------------------------
     this.view.bindCheckDeckButton(this.handleCheckDeckButton);
@@ -33,8 +33,8 @@ export default class Controller {
   /**
    * @function
    */
-  getCard = async () => {
-    await this.model.getCard();
+  getCard() {
+    this.model.getCard();
   };
 
   // -------------------------------------------------------

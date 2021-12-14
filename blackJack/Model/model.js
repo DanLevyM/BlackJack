@@ -54,6 +54,7 @@ export default class Model {
         .then((response) => response.json())
         .then((data) => {
           this.#card = data.cards[0];
+          return data.cards[0];
         })
         .catch((err) => console.log(err));
   }

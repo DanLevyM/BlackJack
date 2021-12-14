@@ -57,16 +57,14 @@ export default class View {
   /**
    * @function
    * @param {*} getCardFromRequest
-   * @param {*} getCardFromModel
    */
-  bindDrawCard(getCardFromRequest, getCardFromModel) {
+  bindDrawCard(getCardFromRequest) {
     this.drawCard.addEventListener('click', async (event) => {
       event.preventDefault();
-      await getCardFromRequest();
-      const cardDrawed = await getCardFromModel();
-      console.log('card drawed', cardDrawed);
-      // this.card.textContent = `${cardDrawed.value}`;
-      // this.app.append(this.card);
+      await getCardFromRequest().then((response) => {
+        this.card.textContent = `${response.value} ${response.suit}`;
+        this.app.append(this.card);
+      });
     });
   }
 
