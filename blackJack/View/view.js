@@ -23,11 +23,14 @@ export default class View {
 
     this.card = this.createElement('p');
 
+    this.cardImg = this.createElement('img');
+
     this.app.append(this.newDeck);
     this.app.append(this.checkDeckButton);
     this.app.append(this.drawCard);
     this.app.append(this.checkCardButton);
     this.app.append(this.card);
+    this.app.append(this.cardImg);
   }
 
   /**
@@ -63,7 +66,7 @@ export default class View {
       event.preventDefault();
       await getCardFromRequest().then((response) => {
         this.card.textContent = `${response.value} ${response.suit}`;
-        this.app.append(this.card);
+        this.cardImg.src = response.image;
       });
     });
   }
