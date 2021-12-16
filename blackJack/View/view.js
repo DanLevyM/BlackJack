@@ -6,6 +6,7 @@ export default class View {
    * @constructor
    */
   constructor() {
+    this.deckCanBeReloaded = false;
     this.body = document.getElementById('body');
     this.app = document.getElementById('root');
     this.board = document.getElementById('board');
@@ -56,7 +57,18 @@ export default class View {
   bindNewDeck(handler) {
     this.newDeck.addEventListener('click', (event) => {
       event.preventDefault();
-      handler();
+      if (this.deckCanBeReloaded) {
+        console.log('a');
+        handler();
+      } else {
+        handler();
+        // Disable new deck
+        this.deckCanBeReloaded = true;
+        this.newDeck.textContent = 'Reload deck';
+        this.newDeck.disabled = true;
+        this.newDeck.classList.remove('new-deck');
+        this.newDeck.classList.add('disabled-button');
+      }
     });
   }
 
@@ -70,9 +82,13 @@ export default class View {
       await getCardFromRequest().then((response) => {
         this.cardImg.src = response.image;
       });
+      if (this.deckCanBeReloaded) {
+        this.newDeck.disabled = false;
+        this.newDeck.classList.remove('disabled-button');
+        this.newDeck.classList.add('new-deck');
+      }
     });
     addEventListener('keydown', async (event) => {
-      event.preventDefault();
       if (event.key === 'd') {
         event.preventDefault();
         await getCardFromRequest().then((response) => {
