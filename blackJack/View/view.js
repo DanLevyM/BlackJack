@@ -68,9 +68,18 @@ export default class View {
     this.drawCard.addEventListener('click', async (event) => {
       event.preventDefault();
       await getCardFromRequest().then((response) => {
-        // this.card.textContent = `${response.value} ${response.suit}`;
         this.cardImg.src = response.image;
       });
+    });
+    addEventListener('keydown', async (event) => {
+      event.preventDefault();
+      if (event.key === 'd') {
+        event.preventDefault();
+        await getCardFromRequest().then((response) => {
+          console.log(`${response.value} ${response.suit}`);
+          this.cardImg.src = response.image;
+        });
+      }
     });
   }
 
