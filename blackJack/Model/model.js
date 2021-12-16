@@ -58,17 +58,4 @@ export default class Model {
         })
         .catch((err) => console.log(err));
   }
-
-  // /**
-  //  * @function
-  //  */
-  // displayNewCard() {
-  // }
-
-  /**
-   * @function
-   */
-  test() {
-    console.log(this.#deck);
-  }
 }

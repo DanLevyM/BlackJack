@@ -15,8 +15,8 @@ export default class Controller {
     this.view.bindDrawCard(this.handleDrawCard);
 
     // ---------------------TESTING --------------------------
-    this.view.bindCheckDeckButton(this.handleCheckDeckButton);
-    this.view.bindCheckCardButton(this.handleCheckCardButton);
+    // this.view.bindCheckDeckButton(this.handleCheckDeckButton);
+    // this.view.bindCheckCardButton(this.handleCheckCardButton);
   }
 
   /**
@@ -41,17 +41,17 @@ export default class Controller {
   // ---------------------TESTING --------------------------
   // -------------------------------------------------------
 
-  /**
-   * @function
-   */
-  handleCheckDeckButton = async () => {
-    this.model.getDeck();
-  };
+  // /**
+  //  * @function
+  //  */
+  // handleCheckDeckButton = async () => {
+  //   this.model.getDeck();
+  // };
 
-  /**
-   * @function
-   */
-  handleCheckCardButton = async () => {
-    this.model.getCard();
-  };
+  // /**
+  //  * @function
+  //  */
+  // handleCheckCardButton = async () => {
+  //   this.model.getCard();
+  // };
 }
