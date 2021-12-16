@@ -8,8 +8,10 @@ export default class View {
   constructor() {
     this.body = document.getElementById('body');
     this.app = document.getElementById('root');
+    this.board = document.getElementById('board');
     this.newDeck = document.getElementById('new-deck');
     this.drawCard = document.getElementById('draw-card');
+
     // this.newDeck = this.createElement('button', 'button', 'new-deck');
     // this.newDeck.textContent = 'New Deck';
 
@@ -22,16 +24,14 @@ export default class View {
     // this.checkCardButton = this.createElement('button');
     // this.checkCardButton.textContent = 'Check fetch card';
 
-    this.card = this.createElement('p');
-
-    this.cardImg = this.createElement('img');
-
     // this.app.append(this.newDeck);
     // this.app.append(this.checkDeckButton);
     // this.app.append(this.drawCard);
     // this.app.append(this.checkCardButton);
-    this.app.append(this.card);
-    this.app.append(this.cardImg);
+    // this.board.append(this.card);
+    // this.card = this.createElement('p');
+    this.cardImg = this.createElement('img', 'drawedCard');
+    this.board.append(this.cardImg);
   }
 
   /**
@@ -68,7 +68,7 @@ export default class View {
     this.drawCard.addEventListener('click', async (event) => {
       event.preventDefault();
       await getCardFromRequest().then((response) => {
-        this.card.textContent = `${response.value} ${response.suit}`;
+        // this.card.textContent = `${response.value} ${response.suit}`;
         this.cardImg.src = response.image;
       });
     });
