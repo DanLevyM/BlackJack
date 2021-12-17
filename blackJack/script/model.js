@@ -79,9 +79,10 @@ export default class Model {
     return await fetch(`https://deckofcardsapi.com/api/deck/${this.getDeck().deck_id}/draw/?count=1`)
         .then((response) => response.json())
         .then((data) => {
-          this.#card = data.cards[0];
+          this.#card = data;
           this.#deckCanBeReloaded = true;
-          return data.cards[0];
+          console.log(this.#card);
+          return data;
         })
         .catch((err) => console.log(err));
   }

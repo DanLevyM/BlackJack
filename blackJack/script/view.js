@@ -10,6 +10,8 @@ export default class View {
 
     this.body = document.getElementById('body');
     this.app = document.getElementById('root');
+    this.left = document.getElementById('left');
+    this.score = document.getElementById('cardsRemaining');
     this.board = document.getElementById('board');
     this.newDeck = document.getElementById('newDeck');
     this.drawCard = document.getElementById('drawCard');
@@ -83,7 +85,11 @@ export default class View {
   bindDrawCard(getCardFromRequest) {
     
     const bindClickAndKeydown = async () => {
-      await getCardFromRequest().then((response) => { this.cardImg.src = response.image; })
+      await getCardFromRequest()
+        .then((response) => { 
+          this.cardImg.src = response.cards[0].image; 
+          this.score.textContent = `Remaining cards: ${response.remaining}`;
+        })
         .catch((err) => {
           console.error(err);
         });
