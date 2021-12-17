@@ -4,6 +4,8 @@
 export default class Model {
   #deck = null;
   #card = null;
+  #cardCanBeDrawed = false;
+  #deckCanBeReloaded = true;
 
   /**
    * @constructor
@@ -33,14 +35,35 @@ export default class Model {
   }
 
   /**
+   * 
+   * @returns {boolean}
+   */
+   deckCanBeReloaded() {
+     return this.#deckCanBeReloaded ? true : false;
+   }
+
+  /**
+   * 
+   * @returns {boolean}
+   */
+   cardCanBeDraw() {
+     return this.#cardCanBeDrawed ? true : false;
+   }
+   
+  /**
    * @function
    */
   async newDeck() {
+    if (!this.deckCanBeReloaded()) return new Promise((resolve, reject) => {
+      reject('Deck cannot be drawed.');
+    })
     return await fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
         .then((response) => response.json())
         .then((data) => {
           this.#deck = data;
           console.log('drawdeck in model: ', this.#deck);
+          this.#cardCanBeDrawed = true;
+          this.#deckCanBeReloaded = false;
           return data;
         })
         .catch((err) => console.log(err));
@@ -50,10 +73,14 @@ export default class Model {
    * @function
    */
   async drawCard() {
+    if (!this.cardCanBeDraw()) return new Promise((resolve, reject) => {
+      reject('Card cannot be drawed.');
+    })
     return await fetch(`https://deckofcardsapi.com/api/deck/${this.getDeck().deck_id}/draw/?count=1`)
         .then((response) => response.json())
         .then((data) => {
           this.#card = data.cards[0];
+          this.#deckCanBeReloaded = true;
           return data.cards[0];
         })
         .catch((err) => console.log(err));

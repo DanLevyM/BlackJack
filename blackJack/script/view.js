@@ -6,12 +6,15 @@ export default class View {
    * @constructor
    */
   constructor() {
-    this.deckCanBeReloaded = false;
+    this.deckCanBeReloaded = true;
+    this.cardCanBeDrawed = true;
+
     this.body = document.getElementById('body');
     this.app = document.getElementById('root');
     this.board = document.getElementById('board');
-    this.newDeck = document.getElementById('new-deck');
-    this.drawCard = document.getElementById('draw-card');
+    this.newDeck = document.getElementById('newDeck');
+    this.drawCard = document.getElementById('drawCard');
+    this.drawCard.disabled = true;
 
     // this.newDeck = this.createElement('button', 'button', 'new-deck');
     // this.newDeck.textContent = 'New Deck';
@@ -56,19 +59,21 @@ export default class View {
    */
   bindNewDeck(handler) {
     this.newDeck.addEventListener('click', (event) => {
-      event.preventDefault();
-      if (this.deckCanBeReloaded) {
-        console.log('a');
-        handler();
-      } else {
-        handler();
+        console.log('deck can be reloaded');
+        handler()
+          .catch((err) => {
+          console.error(err);
+        });
         // Disable new deck
-        this.deckCanBeReloaded = true;
+        this.deckCanBeReloaded = false;
         this.newDeck.textContent = 'Reload deck';
         this.newDeck.disabled = true;
-        this.newDeck.classList.remove('new-deck');
-        this.newDeck.classList.add('disabled-button');
-      }
+        this.newDeck.classList.remove('newDeck');
+        this.newDeck.classList.add('disabledButton');
+
+        this.drawCard.disabled = false;
+        this.drawCard.classList.remove('disabledButton');
+        this.drawCard.classList.add('drawCard');
     });
   }
 
@@ -77,50 +82,25 @@ export default class View {
    * @param {*} getCardFromRequest
    */
   bindDrawCard(getCardFromRequest) {
-    this.drawCard.addEventListener('click', async (event) => {
-      event.preventDefault();
-      await getCardFromRequest().then((response) => {
-        this.cardImg.src = response.image;
-      });
-      if (this.deckCanBeReloaded) {
-        this.newDeck.disabled = false;
-        this.newDeck.classList.remove('disabled-button');
-        this.newDeck.classList.add('new-deck');
-      }
-    });
-    addEventListener('keydown', async (event) => {
-      if (event.key === 'd') {
-        event.preventDefault();
-        await getCardFromRequest().then((response) => {
-          console.log(`${response.value} ${response.suit}`);
-          this.cardImg.src = response.image;
+    
+    const bindClickAndKeydown = async () => {
+      await getCardFromRequest().then((response) => { this.cardImg.src = response.image; })
+        .catch((err) => {
+          console.error(err);
         });
+      if (this.cardCanBeDrawed) {
+        this.newDeck.classList.remove('disabledButton');
+        this.newDeck.classList.add('newDeck');
+        this.newDeck.disabled = false;
       }
+      this.deckCanBeReloaded = true;
+    };
+
+    // Bind buttons to avoid duplicated code
+    this.drawCard.addEventListener('click', bindClickAndKeydown);
+    window.addEventListener('keydown', (event) => {
+      console.log(window.event);
+      if (event.key === 'd') bindClickAndKeydown();
     });
   }
-
-  // -------------------------------------------------------
-  // ---------------------TESTING --------------------------
-  // -------------------------------------------------------
-  // /**
-  //  * @function
-  //  * @param {*} handler
-  //  */
-  // bindCheckDeckButton(handler) {
-  //   this.checkDeckButton.addEventListener('click', (event) => {
-  //     event.preventDefault();
-  //     handler();
-  //   });
-  // }
-
-  // /**
-  //  * @function
-  //  * @param {*} handler
-  //  */
-  // bindCheckCardButton(handler) {
-  //   this.checkCardButton.addEventListener('click', (event) => {
-  //     event.preventDefault();
-  //     handler();
-  //   });
-  // }
 }
