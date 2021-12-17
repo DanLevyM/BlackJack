@@ -7,7 +7,6 @@ export default class View {
    */
   constructor() {
     this.deckCanBeReloaded = true;
-    this.cardCanBeDrawed = true;
 
     this.body = document.getElementById('body');
     this.app = document.getElementById('root');
@@ -88,11 +87,9 @@ export default class View {
         .catch((err) => {
           console.error(err);
         });
-      if (this.cardCanBeDrawed) {
-        this.newDeck.classList.remove('disabledButton');
-        this.newDeck.classList.add('newDeck');
-        this.newDeck.disabled = false;
-      }
+      this.newDeck.classList.remove('disabledButton');
+      this.newDeck.classList.add('newDeck');
+      this.newDeck.disabled = false;
       this.deckCanBeReloaded = true;
     };
 
