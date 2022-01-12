@@ -81,8 +81,9 @@ export default class View {
   /**
    * @function
    * @param {*} getCardFromRequest
+   * @param {boolean} cardCanBeDraw
    */
-  bindDrawCard(getCardFromRequest) {
+  bindDrawCard(getCardFromRequest, cardCanBeDraw) {
     
     const bindClickAndKeydown = async () => {
       await getCardFromRequest()
