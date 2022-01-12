@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * @class Controller
  */
@@ -12,11 +13,7 @@ export default class Controller {
     this.view = view;
 
     this.view.bindNewDeck(this.handleNewDeck);
-    this.view.bindDrawCard(this.handleDrawCard, this.model.cardCanBeDraw());
-
-    // ---------------------TESTING --------------------------
-    // this.view.bindCheckDeckButton(this.handleCheckDeckButton);
-    // this.view.bindCheckCardButton(this.handleCheckCardButton);
+    this.view.bindDrawCard(this.handleDrawCard, this.model.cardCanBeDraw(), this.model.getGame());
   }
 
   /**
@@ -36,22 +33,4 @@ export default class Controller {
   getCard() {
     this.model.getCard();
   };
-
-  // -------------------------------------------------------
-  // ---------------------TESTING --------------------------
-  // -------------------------------------------------------
-
-  // /**
-  //  * @function
-  //  */
-  // handleCheckDeckButton = async () => {
-  //   this.model.getDeck();
-  // };
-
-  // /**
-  //  * @function
-  //  */
-  // handleCheckCardButton = async () => {
-  //   this.model.getCard();
-  // };
 }

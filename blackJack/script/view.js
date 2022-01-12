@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * @class View
  */
@@ -11,7 +12,8 @@ export default class View {
     this.body = document.getElementById('body');
     this.app = document.getElementById('root');
     this.left = document.getElementById('left');
-    this.score = document.getElementById('cardsRemaining');
+    this.remainingCards = document.getElementById('cardsRemaining');
+    this.score = document.getElementById('totalScore');
     this.board = document.getElementById('board');
     this.newDeck = document.getElementById('newDeck');
     this.drawCard = document.getElementById('drawCard');
@@ -56,44 +58,50 @@ export default class View {
 
   /**
    * @function
-   * @param {*} handler
+   * @param {function} handler
    */
   bindNewDeck(handler) {
     this.newDeck.addEventListener('click', (event) => {
-        console.log('deck can be reloaded');
-        handler()
+      console.log('deck is reloaded');
+      handler()
           .catch((err) => {
-          console.error(err);
-        });
-        // Disable new deck
-        this.deckCanBeReloaded = false;
-        this.newDeck.textContent = 'Reload deck';
-        this.newDeck.disabled = true;
-        this.newDeck.classList.remove('newDeck');
-        this.newDeck.classList.add('disabledButton');
+            console.error(err);
+          });
 
-        this.drawCard.disabled = false;
-        this.drawCard.classList.remove('disabledButton');
-        this.drawCard.classList.add('drawCard');
+      // Disable new deck
+      this.deckCanBeReloaded = false;
+      this.newDeck.textContent = 'Reload deck';
+      this.newDeck.disabled = true;
+      this.newDeck.classList.remove('newDeck');
+      this.newDeck.classList.add('disabledButton');
+
+      // Enable new card
+      this.drawCard.disabled = false;
+      this.drawCard.classList.remove('disabledButton');
+      this.drawCard.classList.add('drawCard');
     });
   }
 
   /**
    * @function
-   * @param {*} getCardFromRequest
+   * @param {function} getCardFromRequest
    * @param {boolean} cardCanBeDraw
+   * @param {object} game
    */
-  bindDrawCard(getCardFromRequest, cardCanBeDraw) {
-    
+  bindDrawCard(getCardFromRequest, cardCanBeDraw, game) {
     const bindClickAndKeydown = async () => {
       await getCardFromRequest()
-        .then((response) => { 
-          this.cardImg.src = response.cards[0].image; 
-          this.score.textContent = `Remaining cards: ${response.remaining}`;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+          .then((response) => {
+            // console.log(response.card.cards[0].code);
+            this.cardImg.src = response.card.cards[0].image;
+            this.remainingCards.textContent = `Remaining cards: ${response.card.remaining}`;
+            this.score.textContent = `Score: ${game.score}`;
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+
+      // Enable new deck
       this.newDeck.classList.remove('disabledButton');
       this.newDeck.classList.add('newDeck');
       this.newDeck.disabled = false;

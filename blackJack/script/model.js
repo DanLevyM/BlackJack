@@ -1,9 +1,14 @@
+import getCardValue from './utils/score.js';
+
 /**
  * @class Model
  */
 export default class Model {
-  #deck = null;
-  #card = null;
+  #game = {
+    deck: null,
+    card: null,
+    score: 0,
+  };
   #cardCanBeDrawed = false;
   #deckCanBeReloaded = true;
 
@@ -16,11 +21,11 @@ export default class Model {
 
   /**
    * @function
-   * @return {*} #deck
+   * @return {*}
    */
   getDeck() {
     // console.log(this.#deck);
-    return this.#deck;
+    return this.#game.deck;
   }
 
   /**
@@ -28,43 +33,50 @@ export default class Model {
    * @return {*} #deck
    */
   async getCard() {
-    console.log(this.#card);
-    console.log(this.#card.value);
-    console.log(this.#card.suit);
-    return this.#card;
+    console.log(this.#game.card);
+    console.log(this.#game.card.value);
+    console.log(this.#game.card.suit);
+    return this.#game.card;
   }
 
   /**
-   * 
-   * @returns {boolean}
+   * @function
+   * @return {object}
    */
-   deckCanBeReloaded() {
-     return this.#deckCanBeReloaded ? true : false;
-   }
+  getGame() {
+    return this.#game;
+  }
 
   /**
-   * 
-   * @returns {boolean}
+   * @return {boolean}
    */
-   cardCanBeDraw() {
-     return this.#cardCanBeDrawed ? true : false;
-   }
-   
+  deckCanBeReloaded() {
+    return this.#deckCanBeReloaded ? true : false;
+  }
+
+  /**
+   * @return {boolean}
+   */
+  cardCanBeDraw() {
+    return this.#cardCanBeDrawed ? true : false;
+  }
+
   /**
    * @function
    */
   async newDeck() {
-    if (!this.deckCanBeReloaded()) return new Promise((resolve, reject) => {
-      reject('Deck cannot be drawed.');
-    })
+    if (!this.deckCanBeReloaded()) {
+      return Promise.reject(new Error('Deck cannot be drawed.'));
+    }
+
     return await fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
         .then((response) => response.json())
         .then((data) => {
-          this.#deck = data;
-          console.log('drawdeck in model: ', this.#deck);
+          this.#game.deck = data;
+          // console.log('drawdeck in model: ', this.#game.deck);
           this.#cardCanBeDrawed = true;
           this.#deckCanBeReloaded = false;
-          return data;
+          return this.#game;
         })
         .catch((err) => console.log(err));
   }
@@ -73,16 +85,17 @@ export default class Model {
    * @function
    */
   async drawCard() {
-    if (!this.cardCanBeDraw()) return new Promise((resolve, reject) => {
-      reject('Card cannot be drawed.');
-    })
+    if (!this.cardCanBeDraw()) {
+      return Promise.reject(new Error('Card cannot be drawed.'));
+    }
     return await fetch(`https://deckofcardsapi.com/api/deck/${this.getDeck().deck_id}/draw/?count=1`)
         .then((response) => response.json())
         .then((data) => {
-          this.#card = data;
+          this.#game.card = data;
           this.#deckCanBeReloaded = true;
-          console.log(this.#card);
-          return data;
+          getCardValue(this.#game);
+          // console.log(this.#game.score);
+          return this.#game;
         })
         .catch((err) => console.log(err));
   }

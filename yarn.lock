@@ -1883,7 +1883,7 @@
     "debug" "^3.2.7"
     "find-up" "^2.1.0"
 
-"eslint-plugin-import@^2.25.2", "eslint-plugin-import@^2.25.3":
+"eslint-plugin-import@^2.25.2", "eslint-plugin-import@^2.25.4":
   "integrity" "sha512-/KJBASVFxpu0xg1kIBn9AUa8hQVnszpwgE7Ld0lKAlx7Ie87yzEzCgSkekt+le/YVhiaosO4Y14GDAOc41nfxA=="
   "resolved" "https://registry.npmjs.org/eslint-plugin-import/-/eslint-plugin-import-2.25.4.tgz"
   "version" "2.25.4"
@@ -1927,7 +1927,7 @@
   "resolved" "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-3.1.0.tgz"
   "version" "3.1.0"
 
-"eslint@^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8", "eslint@^7.32.0 || ^8.2.0", "eslint@^8.4.1", "eslint@>=5", "eslint@>=5.16.0":
+"eslint@^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8", "eslint@^7.32.0 || ^8.2.0", "eslint@^8.6.0", "eslint@>=5", "eslint@>=5.16.0":
   "integrity" "sha512-UvxdOJ7mXFlw7iuHZA4jmzPaUqIw54mZrv+XPYKNbKdLR0et4rf60lIZUU9kiNtnzzMzGWxMV+tQ7uG7JG8DPw=="
   "resolved" "https://registry.npmjs.org/eslint/-/eslint-8.6.0.tgz"
   "version" "8.6.0"
