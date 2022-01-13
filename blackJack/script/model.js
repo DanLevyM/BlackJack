@@ -24,7 +24,6 @@ export default class Model {
    * @return {*}
    */
   getDeck() {
-    // console.log(this.#deck);
     return this.#game.deck;
   }
 
