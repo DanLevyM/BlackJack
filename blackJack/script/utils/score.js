@@ -15,7 +15,6 @@ export default function updateScores(card) {
     } else {
       number = parseInt(number);
     }
-    console.log(number);
     return number;
   } catch (e) {
     console.error(e);

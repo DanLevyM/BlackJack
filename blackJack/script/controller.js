@@ -12,13 +12,14 @@ export default class Controller {
     this.model = model;
     this.view = view;
 
-    this.view.bindNewDeck(this.handleNewDeck);
+    this.view.bindNewDeck(this.handleNewDeck, this.model.getGame());
     this.view.bindDrawCard(this.handleDrawCard, this.model.getGame());
     this.view.bindShuffleDeck(this.handleShuffleDeck);
   }
 
   /**
    * @function
+   * @return {Promise}
    */
   handleNewDeck = async () => {
     return await this.model.newDeck();
@@ -26,6 +27,7 @@ export default class Controller {
 
   /**
    * @function
+   * @return {Promise}
    */
   handleDrawCard = async () => {
     return await this.model.drawCard();
@@ -33,15 +35,9 @@ export default class Controller {
 
   /**
    * @function
+   * @return {Promise}
    */
   handleShuffleDeck = async () => {
     return await this.model.shuffleDeck();
-  };
-
-  /**
-   * @function
-   */
-  getCard() {
-    this.model.getCard();
   };
 }

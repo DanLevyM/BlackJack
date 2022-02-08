@@ -47,8 +47,9 @@ export default class View {
    * @description Get new deck
    * @function
    * @param {function} handler
+   * @param {object} game
    */
-  bindNewDeck(handler) {
+  bindNewDeck(handler, game) {
     this.newDeck.addEventListener('click', () => {
       console.log('deck is reloaded');
       handler()
@@ -58,7 +59,7 @@ export default class View {
 
       // Disable new deck
       this.deckCanBeReloaded = false;
-      this.newDeck.textContent = 'Reload deck';
+      this.newDeck.textContent = 'New game';
       this.newDeck.disabled = true;
       this.newDeck.classList.remove('newDeck');
       this.newDeck.classList.add('disabledButton');
@@ -72,6 +73,10 @@ export default class View {
       this.shuffleDeck.disabled = false;
       this.shuffleDeck.classList.remove('disabledButton');
       this.shuffleDeck.classList.add('drawCard');
+
+      this.remainingCards.textContent = 'Remaining cards: 52';
+      this.dealerScore.textContent = `Dealer score: ${game.dealerScore}`;
+      this.playerScore.textContent = `Player score: ${game.playerScore}`;
     });
   }
 
