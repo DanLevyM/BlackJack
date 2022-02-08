@@ -4,17 +4,19 @@ const cardValues = [
 
 /**
  * @function
- * @param {object} game
+ * @param {object} card
+ * @return {number}
  */
-export default function getCardValue(game) {
+export default function updateScores(card) {
   try {
-    let number = (game.card.cards[0].code).substring(0, 1);
+    let number = (card.code).substring(0, 1);
     if (cardValues.includes(number)) {
       number = (number === 'A' ? number = 0 : number = 10);
     } else {
       number = parseInt(number);
     }
-    game.score += number;
+    console.log(number);
+    return number;
   } catch (e) {
     console.error(e);
   }

@@ -13,7 +13,8 @@ export default class View {
     this.app = document.getElementById('root');
     this.left = document.getElementById('left');
     this.remainingCards = document.getElementById('cardsRemaining');
-    this.score = document.getElementById('totalScore');
+    this.dealerScore = document.getElementById('dealerScore');
+    this.playerScore = document.getElementById('playerScore');
     this.board = document.getElementById('board');
     this.newDeck = document.getElementById('newDeck');
     this.drawCard = document.getElementById('drawCard');
@@ -21,26 +22,10 @@ export default class View {
     this.drawCard.disabled = true;
     this.shuffleDeck.disabled = true;
 
-    // this.newDeck = this.createElement('button', 'button', 'new-deck');
-    // this.newDeck.textContent = 'New Deck';
-
-    // this.checkDeckButton = this.createElement('button');
-    // this.checkDeckButton.textContent = 'Check first request';
-
-    // this.drawCard = this.createElement('button', 'button', 'draw-card');
-    // this.drawCard.textContent = 'Draw card';
-
-    // this.checkCardButton = this.createElement('button');
-    // this.checkCardButton.textContent = 'Check fetch card';
-
-    // this.app.append(this.newDeck);
-    // this.app.append(this.checkDeckButton);
-    // this.app.append(this.drawCard);
-    // this.app.append(this.checkCardButton);
-    // this.board.append(this.card);
-    // this.card = this.createElement('p');
-    this.cardImg = this.createElement('img', 'drawedCard');
-    this.board.append(this.cardImg);
+    this.dealerCard = this.createElement('img', 'drawedCard');
+    this.playerCard = this.createElement('img', 'drawedCard');
+    this.board.append(this.dealerCard);
+    this.board.append(this.playerCard);
   }
 
   /**
@@ -64,7 +49,7 @@ export default class View {
    * @param {function} handler
    */
   bindNewDeck(handler) {
-    this.newDeck.addEventListener('click', (event) => {
+    this.newDeck.addEventListener('click', () => {
       console.log('deck is reloaded');
       handler()
           .catch((err) => {
@@ -93,18 +78,19 @@ export default class View {
   /**
    * @description Draw a card
    * @function
-   * @param {function} getCardFromRequest
-   * @param {boolean} cardCanBeDraw
+   * @param {function} handler
    * @param {object} game
    */
-  bindDrawCard(getCardFromRequest, cardCanBeDraw, game) {
+  bindDrawCard(handler, game) {
     const bindClickAndKeydown = async () => {
-      await getCardFromRequest()
+      await handler()
           .then((response) => {
             // console.log(response.card.cards[0].code);
-            this.cardImg.src = response.card.cards[0].image;
+            this.dealerCard.src = response.card.cards[0].image;
+            this.playerCard.src = response.card.cards[1].image;
             this.remainingCards.textContent = `Remaining cards: ${response.card.remaining}`;
-            this.score.textContent = `Score: ${game.score}`;
+            this.dealerScore.textContent = `Dealer score: ${game.dealerScore}`;
+            this.playerScore.textContent = `Player score: ${game.playerScore}`;
           })
           .catch((err) => {
             console.error(err);

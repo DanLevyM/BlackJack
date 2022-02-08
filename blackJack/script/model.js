@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import getCardValue from './utils/score.js';
+import updateScores from './utils/score.js';
 
 /**
  * @class Model
@@ -8,7 +8,8 @@ export default class Model {
   #game = {
     deck: null,
     card: null,
-    score: 0,
+    dealerScore: 0,
+    playerScore: 0,
   };
   #cardCanBeDrawed = false;
   #deckCanBeReloaded = true;
@@ -87,7 +88,7 @@ export default class Model {
           this.#deckCanBeShuffled = true;
           return this.#game;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
   }
 
   /**
@@ -97,16 +98,18 @@ export default class Model {
     if (!this.cardCanBeDraw()) {
       return Promise.reject(new Error('Card cannot be drawed.'));
     }
-    return await fetch(`https://deckofcardsapi.com/api/deck/${this.getDeck().deck_id}/draw/?count=1`)
+    return await fetch(`https://deckofcardsapi.com/api/deck/${this.getDeck().deck_id}/draw/?count=2`)
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
           this.#game.card = data;
           this.#deckCanBeReloaded = true;
-          getCardValue(this.#game);
+          this.#game.dealerScore += updateScores(data.cards[0]);
+          this.#game.playerScore += updateScores(data.cards[1]);
           // console.log(this.#game.score);
           return this.#game;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
   }
 
   /**
@@ -121,6 +124,7 @@ export default class Model {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-        });
+        })
+        .catch((err) => console.error(`Internal error: ${err}`));
   }
 }

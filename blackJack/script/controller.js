@@ -13,7 +13,7 @@ export default class Controller {
     this.view = view;
 
     this.view.bindNewDeck(this.handleNewDeck);
-    this.view.bindDrawCard(this.handleDrawCard, this.model.cardCanBeDraw(), this.model.getGame());
+    this.view.bindDrawCard(this.handleDrawCard, this.model.getGame());
     this.view.bindShuffleDeck(this.handleShuffleDeck);
   }
 
