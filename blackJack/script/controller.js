@@ -14,6 +14,7 @@ export default class Controller {
 
     this.view.bindNewDeck(this.handleNewDeck);
     this.view.bindDrawCard(this.handleDrawCard, this.model.cardCanBeDraw(), this.model.getGame());
+    this.view.bindShuffleDeck(this.handleShuffleDeck);
   }
 
   /**
@@ -23,8 +24,18 @@ export default class Controller {
     return await this.model.newDeck();
   };
 
+  /**
+   * @function
+   */
   handleDrawCard = async () => {
     return await this.model.drawCard();
+  };
+
+  /**
+   * @function
+   */
+  handleShuffleDeck = async () => {
+    return await this.model.shuffleDeck();
   };
 
   /**

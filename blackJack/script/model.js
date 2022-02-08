@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import getCardValue from './utils/score.js';
 
 /**
@@ -11,6 +12,7 @@ export default class Model {
   };
   #cardCanBeDrawed = false;
   #deckCanBeReloaded = true;
+  #deckCanBeShuffled = false;
 
   /**
    * @constructor
@@ -61,6 +63,13 @@ export default class Model {
   }
 
   /**
+   * @return {boolean}
+   */
+  deckCanBeShuffled() {
+    return this.#deckCanBeShuffled ? true : false;
+  }
+
+  /**
    * @function
    */
   async newDeck() {
@@ -72,9 +81,10 @@ export default class Model {
         .then((response) => response.json())
         .then((data) => {
           this.#game.deck = data;
-          // console.log('drawdeck in model: ', this.#game.deck);
+          console.log('drawdeck in model: ', this.#game.deck);
           this.#cardCanBeDrawed = true;
           this.#deckCanBeReloaded = false;
+          this.#deckCanBeShuffled = true;
           return this.#game;
         })
         .catch((err) => console.log(err));
@@ -97,5 +107,20 @@ export default class Model {
           return this.#game;
         })
         .catch((err) => console.log(err));
+  }
+
+  /**
+   * @function
+   */
+  async shuffleDeck() {
+    console.log('shuff');
+    if (!this.deckCanBeShuffled()) {
+      return Promise.reject(new Error('Deck can\'t be shuffled. No deck detected.'));
+    }
+    return await fetch(`https://deckofcardsapi.com/api/deck/${this.#game.deck.deck_id}/shuffle/?remaining=true`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        });
   }
 }

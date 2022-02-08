@@ -17,7 +17,9 @@ export default class View {
     this.board = document.getElementById('board');
     this.newDeck = document.getElementById('newDeck');
     this.drawCard = document.getElementById('drawCard');
+    this.shuffleDeck = document.getElementById('shuffleDeck');
     this.drawCard.disabled = true;
+    this.shuffleDeck.disabled = true;
 
     // this.newDeck = this.createElement('button', 'button', 'new-deck');
     // this.newDeck.textContent = 'New Deck';
@@ -57,6 +59,7 @@ export default class View {
   }
 
   /**
+   * @description Get new deck
    * @function
    * @param {function} handler
    */
@@ -79,10 +82,16 @@ export default class View {
       this.drawCard.disabled = false;
       this.drawCard.classList.remove('disabledButton');
       this.drawCard.classList.add('drawCard');
+
+      // Enable shuffle deck
+      this.shuffleDeck.disabled = false;
+      this.shuffleDeck.classList.remove('disabledButton');
+      this.shuffleDeck.classList.add('drawCard');
     });
   }
 
   /**
+   * @description Draw a card
    * @function
    * @param {function} getCardFromRequest
    * @param {boolean} cardCanBeDraw
@@ -113,6 +122,20 @@ export default class View {
     window.addEventListener('keydown', (event) => {
       console.log(window.event);
       if (event.key === 'd') bindClickAndKeydown();
+    });
+  }
+
+  /**
+   * @description Shuffle actual deck
+   * @function
+   * @param {function} handler
+   */
+  bindShuffleDeck(handler) {
+    this.shuffleDeck.addEventListener('click', () => {
+      handler()
+          .catch((err) => {
+            console.error(err);
+          });
     });
   }
 }
