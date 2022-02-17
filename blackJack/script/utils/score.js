@@ -4,18 +4,35 @@ const cardValues = [
 
 /**
  * @function
- * @param {object} card
- * @return {number}
+ * @param {object} game
  */
-export default function updateScores(card) {
+export default function updateScores(game) {
   try {
-    let number = (card.code).substring(0, 1);
+    console.log(game.turn);
+    console.log('is finished:', game.isFinished);
+    console.log('dealerhas max point:', game.dealerHasMaxPoint);
+    let number = (game.card.cards[0].code).substring(0, 1);
+
     if (cardValues.includes(number)) {
       number = (number === 'A' ? number = 0 : number = 10);
     } else {
       number = parseInt(number);
     }
-    return number;
+
+    if (game.turn === 'PLAYER') {
+      game.playerScore += number;
+    } else {
+      if ((game.dealerScore + number) < 21) {
+        game.dealerScore += number;
+      } else {
+        game.dealerHasMaxPoint = true;
+      }
+    }
+    // game.turn === 'PLAYER' ?
+    //   game.playerScore += number :
+    //   game.dealerScore += number;
+
+    if (game.playerScore > 1) game.isFinished = true;
   } catch (e) {
     console.error(e);
   }

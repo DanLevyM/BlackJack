@@ -1,4 +1,7 @@
 /* eslint-disable max-len */
+
+const modal = document.getElementById('myModal');
+
 /**
  * @class View
  */
@@ -26,6 +29,21 @@ export default class View {
     this.playerCard = this.createElement('img', 'drawedCard');
     this.board.append(this.dealerCard);
     this.board.append(this.playerCard);
+
+    // Get the <span> element that closes the modal
+    const span = document.getElementsByClassName('close')[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = 'none';
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    };
   }
 
   /**
@@ -91,11 +109,37 @@ export default class View {
       await handler()
           .then((response) => {
             // console.log(response.card.cards[0].code);
-            this.dealerCard.src = response.card.cards[0].image;
-            this.playerCard.src = response.card.cards[1].image;
+            if (game.turn === 'PLAYER' || game.dealerHasMaxPoint) {
+              game.playerCard = response.card.cards[0];
+            } else {
+              game.dealerCard = response.card.cards[0];
+            }
+            // game.turn === 'PLAYER' ?
+            //   game.playerCard = response.card.cards[0]:
+            //   game.dealerCard = response.card.cards[0];
+            game.turn === 'PLAYER' ?
+              this.playerCard.src = game.playerCard.image:
+              this.dealerCard.src = game.dealerCard.image;
             this.remainingCards.textContent = `Remaining cards: ${response.card.remaining}`;
             this.dealerScore.textContent = `Dealer score: ${game.dealerScore}`;
             this.playerScore.textContent = `Player score: ${game.playerScore}`;
+
+            if (game.isFinished) {
+              modal.style.display = 'block';
+
+              console.log('You lost !');
+            }
+
+            if (game.turn === 'DEALER') {
+              game.turn = 'PLAYER';
+            } else {
+              if (!game.dealerHasMaxPoint) {
+                game.turn = 'DEALER';
+              }
+            }
+            // game.turn === 'PLAYER' ?
+            //   game.turn = 'DEALER':
+            //   game.turn = 'PLAYER';
           })
           .catch((err) => {
             console.error(err);

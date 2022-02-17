@@ -1,5 +1,9 @@
 /* eslint-disable max-len */
 import updateScores from './utils/score.js';
+const TURN = {
+  PLAYER: 'PLAYER',
+  DEALER: 'DEALER',
+};
 
 /**
  * @class Model
@@ -10,6 +14,11 @@ export default class Model {
     card: null,
     dealerScore: 0,
     playerScore: 0,
+    dealerCard: null,
+    playerCard: null,
+    turn: TURN.PLAYER,
+    isFinished: false,
+    dealerHasMaxPoint: false,
   };
   #cardCanBeDrawed = false;
   #deckCanBeReloaded = true;
@@ -96,14 +105,20 @@ export default class Model {
     if (!this.cardCanBeDraw()) {
       return Promise.reject(new Error('Card cannot be drawed.'));
     }
-    return await fetch(`https://deckofcardsapi.com/api/deck/${this.getDeck().deck_id}/draw/?count=2`)
+    return await fetch(`https://deckofcardsapi.com/api/deck/${this.getDeck().deck_id}/draw/?count=1`)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           this.#game.card = data;
           this.#gameCanBeRestarted = true;
-          this.#game.dealerScore += updateScores(data.cards[0]);
-          this.#game.playerScore += updateScores(data.cards[1]);
+
+          updateScores(this.#game);
+          // this.#game.dealerScore += updateScores(data.cards[0]);
+          // this.#game.playerScore += updateScores(data.cards[1]);
+
+          // if (this.#game.playerScore > 21) {
+          //   console.log('You lost !');
+          // }
           return this.#game;
         })
         .catch((err) => console.error(err));
