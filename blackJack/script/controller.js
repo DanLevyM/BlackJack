@@ -13,9 +13,13 @@ export default class Controller {
     this.view = view;
 
     this.view.bindNewDeck(this.handleNewDeck, this.model.getGame());
-    this.view.bindDrawCard(this.handleDrawCard, this.model.getGame());
+    this.view.bindDrawCard(this.handleDrawCard, this.handleGetGame, this.handleStartTurn);
     this.view.bindShuffleDeck(this.handleShuffleDeck);
   }
+
+  handleGetGame = () => {
+    return this.model.getGame();
+  };
 
   /**
    * @function
@@ -39,5 +43,13 @@ export default class Controller {
    */
   handleShuffleDeck = async () => {
     return await this.model.shuffleDeck();
+  };
+
+  // handleEndTurn = () => {
+  //   return this.model.endTurn();
+  // };
+
+  handleStartTurn = () => {
+    return this.model.startTurn();
   };
 }

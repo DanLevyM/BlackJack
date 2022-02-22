@@ -17,8 +17,9 @@ export default class Model {
     dealerCard: null,
     playerCard: null,
     turn: TURN.PLAYER,
-    isFinished: false,
     dealerHasMaxPoint: false,
+    turnIsFinished: false,
+    isFinished: false,
   };
   #cardCanBeDrawed = false;
   #deckCanBeReloaded = true;
@@ -76,6 +77,23 @@ export default class Model {
     return this.#gameCanBeRestarted ? true : false;
   }
 
+  // /**
+  //  * @function
+  //  */
+  // endTurn() {
+  //   console.log('end');
+  //   this.#game.turnIsFinished = true;
+  // }
+
+  /**
+ * @function
+ */
+  startTurn() {
+    console.log('start');
+    this.#game.turnIsFinished = false;
+  }
+
+
   /**
    * @function
    */
@@ -113,6 +131,7 @@ export default class Model {
           this.#gameCanBeRestarted = true;
 
           updateScores(this.#game);
+          console.log(`GT model: ${this.#game.turnIsFinished}`);
           // this.#game.dealerScore += updateScores(data.cards[0]);
           // this.#game.playerScore += updateScores(data.cards[1]);
 

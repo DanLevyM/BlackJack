@@ -102,55 +102,71 @@ export default class View {
    * @description Draw a card
    * @function
    * @param {function} handler
-   * @param {object} game
+   * @param {object} getGame
+   * @param {function} startTurn
    */
-  bindDrawCard(handler, game) {
+  bindDrawCard(handler, getGame, startTurn) {
     const bindClickAndKeydown = async () => {
-      await handler()
-          .then((response) => {
-            // console.log(response.card.cards[0].code);
-            if (game.turn === 'PLAYER' || game.dealerHasMaxPoint) {
-              game.playerCard = response.card.cards[0];
-            } else {
-              game.dealerCard = response.card.cards[0];
-            }
-            // game.turn === 'PLAYER' ?
-            //   game.playerCard = response.card.cards[0]:
-            //   game.dealerCard = response.card.cards[0];
-            game.turn === 'PLAYER' ?
-              this.playerCard.src = game.playerCard.image:
-              this.dealerCard.src = game.dealerCard.image;
-            this.remainingCards.textContent = `Remaining cards: ${response.card.remaining}`;
-            this.dealerScore.textContent = `Dealer score: ${game.dealerScore}`;
-            this.playerScore.textContent = `Player score: ${game.playerScore}`;
-
-            if (game.isFinished) {
-              modal.style.display = 'block';
-
-              console.log('You lost !');
-            }
-
-            if (game.turn === 'DEALER') {
-              game.turn = 'PLAYER';
-            } else {
-              if (!game.dealerHasMaxPoint) {
-                game.turn = 'DEALER';
+      let i = 0;
+      while (!getGame().turnIsFinished && !getGame().isFinished) {
+        const game = getGame();
+        console.log(getGame().turnIsFinished);
+        console.log(`turn f:${game.turnIsFinished}, game:${game.isFinished}`);
+        await handler()
+            .then((response) => {
+              // console.log(response.card.cards[0].code);
+              if (game.turn === 'PLAYER' || game.dealerHasMaxPoint) {
+                game.playerCard = response.card.cards[0];
+              } else {
+                game.dealerCard = response.card.cards[0];
               }
-            }
-            // game.turn === 'PLAYER' ?
-            //   game.turn = 'DEALER':
-            //   game.turn = 'PLAYER';
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+              // game.turn === 'PLAYER' ?
+              //   game.playerCard = response.card.cards[0]:
+              //   game.dealerCard = response.card.cards[0];
+              game.turn === 'PLAYER' ?
+                this.playerCard.src = game.playerCard.image:
+                this.dealerCard.src = game.dealerCard.image;
+              this.remainingCards.textContent = `Remaining cards: ${response.card.remaining}`;
+              this.dealerScore.textContent = `Dealer score: ${game.dealerScore}`;
+              this.playerScore.textContent = `Player score: ${game.playerScore}`;
 
+              if (game.isFinished) {
+                modal.style.display = 'block';
+
+                console.log('You lost !');
+              }
+
+              if (game.turn === 'DEALER') {
+                game.turn = 'PLAYER';
+              } else {
+                if (!game.dealerHasMaxPoint) {
+                  game.turn = 'DEALER';
+                }
+              }
+              // game.turn === 'PLAYER' ?
+              //   game.turn = 'DEALER':
+              //   game.turn = 'PLAYER';
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        i++;
+        if (i > 10) {
+          break;
+        }
+        // this.sleep(1000);
+      }
+      // console.log(`turn f:${game.turnIsFinished}, game:${game.isFinished}`);
+
+      startTurn();
       // Enable new deck
       this.newDeck.classList.remove('disabledButton');
       this.newDeck.classList.add('newDeck');
       this.newDeck.disabled = false;
       this.deckCanBeReloaded = true;
     };
+    // game.turnIsFinished = false;
+    // console.log(`turn f:${game.turnIsFinished}, game:${game.isFinished}`);
 
     // Bind buttons to avoid duplicated code
     this.drawCard.addEventListener('click', bindClickAndKeydown);
@@ -172,5 +188,16 @@ export default class View {
             console.error(err);
           });
     });
+  }
+
+  /**
+   * @param {number} milliseconds
+   */
+  sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
   }
 }
