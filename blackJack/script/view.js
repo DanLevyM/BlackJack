@@ -15,6 +15,7 @@ export default class View {
     this.body = document.getElementById('body');
     this.app = document.getElementById('root');
     this.left = document.getElementById('left');
+    this.right = document.getElementById('right');
     this.remainingCards = document.getElementById('cardsRemaining');
     this.dealerScore = document.getElementById('dealerScore');
     this.playerScore = document.getElementById('playerScore');
@@ -29,8 +30,12 @@ export default class View {
     this.drawCard.disabled = true;
 
     this.dealerCard = this.createElement('img', 'drawedCard');
+    // Dealer card above 21 => we do no add to result but we show it to the user
+    this.dealerCardNotDrawed = this.createElement('img', 'drawedCard');
+    this.dealerCardNotDrawedText = document.getElementById('dealerCardNotDrawedText');
     this.playerCard = this.createElement('img', 'drawedCard');
     this.board.append(this.dealerCard);
+    this.right.append(this.dealerCardNotDrawed);
     this.board.append(this.playerCard);
 
     // Get the <span> element that closes the modal
@@ -90,6 +95,7 @@ export default class View {
       this.newDeck.textContent = 'Restart Game';
       this.playerCard.removeAttribute('src');
       this.dealerCard.removeAttribute('src');
+      this.dealerCardNotDrawed.removeAttribute('src');
 
       // Disable new deck
       this.deckCanBeReloaded = false;
@@ -113,6 +119,8 @@ export default class View {
       this.stopDraw.classList.add('drawCard');
 
       // classList.add à modif
+
+      this.dealerCardNotDrawedText.textContent = '';
 
       this.remainingCards.textContent = 'Remaining cards: 52';
       this.dealerScore.textContent = `Dealer score: ${game.dealerScore}`;
@@ -173,6 +181,14 @@ export default class View {
                   game.turn = 'DEALER';
                 }
               }
+
+              // Handle burned card for dealer
+              console.log(getGame().dealerScore);
+              if (getGame().dealerHasMaxPoint && getGame.dealerScore != 21) {
+                this.dealerCardNotDrawedText.textContent = 'Card burned';
+                this.dealerCardNotDrawed.src = getGame().dealerCardNotAdded;
+              }
+
               // game.turn === 'PLAYER' ?
               //   game.turn = 'DEALER':
               //   game.turn = 'PLAYER';
@@ -234,6 +250,12 @@ export default class View {
       while (i < 10) {
         i++;
         if (getGame().isFinished) {
+          console.log('ici', getGame().dealerCardNotAdded);
+          if (getGame().dealerHasMaxPoint && getGame.dealerScore != 21) {
+            this.dealerCardNotDrawedText.textContent = 'Card burned';
+            this.dealerCardNotDrawed.src = getGame().dealerCardNotAdded;
+          }
+
           if (getGame().dealerScore >= getGame().playerScore) {
             this.modalResult.textContent =
             `You lost !

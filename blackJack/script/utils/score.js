@@ -26,6 +26,7 @@ export function updateScores(game) {
         game.dealerScore += number;
       } else {
         game.dealerHasMaxPoint = true;
+        game.dealerCardNotAdded = game.card.cards[0].image;
       }
       game.turnIsFinished = true;
     }
@@ -55,6 +56,8 @@ export function dealerDrawToEndGame(game) {
 
   if (game.dealerScore + number > 21) {
     console.log('dealer has more than 21. game should stop');
+    game.dealerCardNotAdded = game.card.cards[0].image;
+    game.dealerHasMaxPoint = true;
     game.isFinished = true;
     return;
   }

@@ -96,6 +96,7 @@ export default class Model {
     this.#game.playerScore = 0;
     this.#game.dealerHasMaxPoint = false;
     this.#game.isFinished = false;
+    this.#game.dealerCardNotAdded = null;
 
     return await fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
         .then((response) => response.json())
