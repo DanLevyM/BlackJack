@@ -16,7 +16,6 @@ export default class Controller {
     this.view.bindDrawCard(this.handleDrawCard, this.handleGetGame, this.handleStartTurn);
     this.view.bindShuffleDeck(this.handleShuffleDeck);
     this.view.bindStopDraw(this.handleStopDraw, this.handleGetGame);
-    // this.view.bindRestartGame(this.handleRestartGame);
   }
 
   handleGetGame = () => {
@@ -46,14 +45,6 @@ export default class Controller {
   handleStopDraw = async () => {
     return await this.model.stopDraw();
   };
-
-  // /**
-  //  * @function
-  //  * @return {Promise}
-  //  */
-  // handleRestartGame = async () => {
-  //   return await this.model.restartGame();
-  // };
 
   /**
    * @function

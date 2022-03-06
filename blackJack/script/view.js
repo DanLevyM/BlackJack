@@ -87,9 +87,12 @@ export default class View {
             console.error(err);
           });
 
+      this.newDeck.textContent = 'Restart Game';
+      this.playerCard.removeAttribute('src');
+      this.dealerCard.removeAttribute('src');
+
       // Disable new deck
       this.deckCanBeReloaded = false;
-      this.newDeck.textContent = 'New game';
       this.newDeck.disabled = true;
       this.newDeck.classList.remove('newDeck');
       this.newDeck.classList.add('disabledButton');
@@ -184,7 +187,7 @@ export default class View {
         // this.sleep(1000);
       }
       // console.log(`turn f:${game.turnIsFinished}, game:${game.isFinished}`);
-
+      console.log(getGame());
       startTurn();
       // Enable new deck
       this.newDeck.classList.remove('disabledButton');
@@ -231,7 +234,7 @@ export default class View {
       while (i < 10) {
         i++;
         if (getGame().isFinished) {
-          if (getGame().dealerScore > getGame().playerScore) {
+          if (getGame().dealerScore >= getGame().playerScore) {
             this.modalResult.textContent =
             `You lost !
             Your score : ${getGame().playerScore}
@@ -276,7 +279,3 @@ export default class View {
   }
 }
 
-// stop draw
-// modal draw card
-// modal stop draw
-// restart game

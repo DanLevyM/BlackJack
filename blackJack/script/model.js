@@ -77,14 +77,6 @@ export default class Model {
     return this.#gameCanBeRestarted ? true : false;
   }
 
-  // /**
-  //  * @function
-  //  */
-  // endTurn() {
-  //   console.log('end');
-  //   this.#game.turnIsFinished = true;
-  // }
-
   /**
  * @function
  */
@@ -102,6 +94,8 @@ export default class Model {
     this.#game.card = null;
     this.#game.dealerScore = 0;
     this.#game.playerScore = 0;
+    this.#game.dealerHasMaxPoint = false;
+    this.#game.isFinished = false;
 
     return await fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
         .then((response) => response.json())
@@ -131,7 +125,7 @@ export default class Model {
           this.#gameCanBeRestarted = true;
 
           updateScores(this.#game);
-          console.log(`GT model: ${this.#game.turnIsFinished}`);
+          // console.log(`GT model: ${this.#game.turnIsFinished}`);
           // this.#game.dealerScore += updateScores(data.cards[0]);
           // this.#game.playerScore += updateScores(data.cards[1]);
 
@@ -171,7 +165,11 @@ export default class Model {
           this.#game.card = data;
           // this.#gameCanBeRestarted = true;
 
-          dealerDrawToEndGame(this.#game);
+          if (this.#game.dealerHasMaxPoint) {
+            this.#game.isFinished = true;
+          } else {
+            dealerDrawToEndGame(this.#game);
+          }
 
           return this.#game;
         })
