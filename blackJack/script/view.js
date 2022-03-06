@@ -22,8 +22,11 @@ export default class View {
     this.newDeck = document.getElementById('newDeck');
     this.drawCard = document.getElementById('drawCard');
     this.shuffleDeck = document.getElementById('shuffleDeck');
+    this.stopDraw = document.getElementById('stopDraw');
+    this.modalResult = document.getElementById('modalResult');
     this.drawCard.disabled = true;
     this.shuffleDeck.disabled = true;
+    this.drawCard.disabled = true;
 
     this.dealerCard = this.createElement('img', 'drawedCard');
     this.playerCard = this.createElement('img', 'drawedCard');
@@ -62,6 +65,15 @@ export default class View {
   }
 
   /**
+   * @param {object} elem
+   */
+  disableButton(elem) {
+    elem.disabled = true;
+    elem.classList.add('disabledButton');
+    elem.classList.remove('drawCard');
+  }
+
+  /**
    * @description Get new deck
    * @function
    * @param {function} handler
@@ -92,6 +104,13 @@ export default class View {
       this.shuffleDeck.classList.remove('disabledButton');
       this.shuffleDeck.classList.add('drawCard');
 
+      // Enable stop draw
+      this.stopDraw.disabled = false;
+      this.stopDraw.classList.remove('disabledButton');
+      this.stopDraw.classList.add('drawCard');
+
+      // classList.add à modif
+
       this.remainingCards.textContent = 'Remaining cards: 52';
       this.dealerScore.textContent = `Dealer score: ${game.dealerScore}`;
       this.playerScore.textContent = `Player score: ${game.playerScore}`;
@@ -110,8 +129,8 @@ export default class View {
       let i = 0;
       while (!getGame().turnIsFinished && !getGame().isFinished) {
         const game = getGame();
-        console.log(getGame().turnIsFinished);
-        console.log(`turn f:${game.turnIsFinished}, game:${game.isFinished}`);
+        // console.log(getGame().turnIsFinished);
+        // console.log(`turn f:${game.turnIsFinished}, game:${game.isFinished}`);
         await handler()
             .then((response) => {
               // console.log(response.card.cards[0].code);
@@ -131,8 +150,16 @@ export default class View {
               this.playerScore.textContent = `Player score: ${game.playerScore}`;
 
               if (game.isFinished) {
-                modal.style.display = 'block';
+                this.modalResult.textContent =
+                  `You lost !\r\n
+                  Your score : ${game.playerScore}\r\n
+                  Dealer score : ${game.dealerScore}\r\n
+                  Try again !`;
 
+                modal.style.display = 'block';
+                this.disableButton(this.stopDraw);
+                this.disableButton(this.drawCard);
+                this.disableButton(this.shuffleDeck);
                 console.log('You lost !');
               }
 
@@ -184,9 +211,56 @@ export default class View {
   bindShuffleDeck(handler) {
     this.shuffleDeck.addEventListener('click', () => {
       handler()
+          // .then((response) => {
+          //   console.log(response);
+          // })
           .catch((err) => {
             console.error(err);
           });
+    });
+  }
+
+  /**
+   * @description Draw card for dealer until he has max points
+   * @param {function} handler
+   * @param {object} getGame
+   */
+  bindStopDraw(handler, getGame) {
+    this.stopDraw.addEventListener('click', async () => {
+      let i = 0;
+      while (i < 10) {
+        i++;
+        if (getGame().isFinished) {
+          if (getGame().dealerScore > getGame().playerScore) {
+            this.modalResult.textContent =
+            `You lost !
+            Your score : ${getGame().playerScore}
+            Dealer score : ${getGame().dealerScore}
+            Try again !`;
+          } else {
+            this.modalResult.textContent =
+            `You win !
+            Your score : ${getGame().playerScore}
+            Dealer score : ${getGame().dealerScore}
+            Try again !`;
+          }
+          modal.style.display = 'block';
+          this.disableButton(this.stopDraw);
+          this.disableButton(this.drawCard);
+          this.disableButton(this.shuffleDeck);
+          break;
+        }
+        await handler()
+            .then((response) => {
+              const game = getGame();
+              this.dealerScore.textContent = `Dealer score: ${game.dealerScore}`;
+              if (!getGame().isFinished) this.dealerCard.src = response.card.cards[0].image;
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        this.sleep(800);
+      }
     });
   }
 
@@ -201,3 +275,8 @@ export default class View {
     } while (currentDate - date < milliseconds);
   }
 }
+
+// stop draw
+// modal draw card
+// modal stop draw
+// restart game

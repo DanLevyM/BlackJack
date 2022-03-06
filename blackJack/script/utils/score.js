@@ -6,7 +6,7 @@ const cardValues = [
  * @function
  * @param {object} game
  */
-export default function updateScores(game) {
+export function updateScores(game) {
   try {
     // console.log(game.turn);
     // console.log('is finished:', game.isFinished);
@@ -39,3 +39,26 @@ export default function updateScores(game) {
   }
 }
 
+/**
+ * @function
+ * @param {object} game
+ */
+export function dealerDrawToEndGame(game) {
+  console.log(game);
+  let number = (game.card.cards[0].code).substring(0, 1);
+
+  if (cardValues.includes(number)) {
+    number = (number === 'A' ? number = 0 : number = 10);
+  } else {
+    number = parseInt(number);
+  }
+
+  if (game.dealerScore + number > 21) {
+    console.log('dealer has more than 21. game should stop');
+    game.isFinished = true;
+    return;
+  }
+
+  game.dealerScore += number;
+  console.log(game.dealerScore);
+}

@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import updateScores from './utils/score.js';
+import {updateScores, dealerDrawToEndGame} from './utils/score.js';
 const TURN = {
   PLAYER: 'PLAYER',
   DEALER: 'DEALER',
@@ -156,5 +156,25 @@ export default class Model {
           console.log(data);
         })
         .catch((err) => console.error(`Internal error: ${err}`));
+  }
+
+  /**
+   * @function
+   */
+  async stopDraw() {
+    if (!this.cardCanBeDraw()) {
+      return Promise.reject(new Error('Start game first !'));
+    }
+    return await fetch(`https://deckofcardsapi.com/api/deck/${this.getDeck().deck_id}/draw/?count=1`)
+        .then((response) => response.json())
+        .then((data) => {
+          this.#game.card = data;
+          // this.#gameCanBeRestarted = true;
+
+          dealerDrawToEndGame(this.#game);
+
+          return this.#game;
+        })
+        .catch((err) => console.error(err));
   }
 }
