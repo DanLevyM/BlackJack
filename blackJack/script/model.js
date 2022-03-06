@@ -30,7 +30,6 @@ export default class Model {
    * @constructor
    */
   constructor() {
-    // this.todos = JSON.parse(localStorage.getItem('todos')) || [];
   }
 
   /**
@@ -81,7 +80,6 @@ export default class Model {
  * @function
  */
   startTurn() {
-    console.log('start');
     this.#game.turnIsFinished = false;
   }
 
@@ -102,7 +100,6 @@ export default class Model {
         .then((response) => response.json())
         .then((data) => {
           this.#game.deck = data;
-          console.log('drawdeck in model: ', this.#game.deck);
           this.#cardCanBeDrawed = true;
           this.#deckCanBeReloaded = false;
           this.#deckCanBeShuffled = true;
@@ -121,18 +118,11 @@ export default class Model {
     return await fetch(`https://deckofcardsapi.com/api/deck/${this.getDeck().deck_id}/draw/?count=1`)
         .then((response) => response.json())
         .then((data) => {
-          // console.log(data);
           this.#game.card = data;
           this.#gameCanBeRestarted = true;
 
           updateScores(this.#game);
-          // console.log(`GT model: ${this.#game.turnIsFinished}`);
-          // this.#game.dealerScore += updateScores(data.cards[0]);
-          // this.#game.playerScore += updateScores(data.cards[1]);
 
-          // if (this.#game.playerScore > 21) {
-          //   console.log('You lost !');
-          // }
           return this.#game;
         })
         .catch((err) => console.error(err));
@@ -148,6 +138,7 @@ export default class Model {
     return await fetch(`https://deckofcardsapi.com/api/deck/${this.#game.deck.deck_id}/shuffle/?remaining=true`)
         .then((response) => response.json())
         .then((data) => {
+          // We let the console log to show during the presentation that it is shuffled
           console.log(data);
         })
         .catch((err) => console.error(`Internal error: ${err}`));
@@ -164,7 +155,6 @@ export default class Model {
         .then((response) => response.json())
         .then((data) => {
           this.#game.card = data;
-          // this.#gameCanBeRestarted = true;
 
           if (this.#game.dealerHasMaxPoint) {
             this.#game.isFinished = true;

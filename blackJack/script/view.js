@@ -140,19 +140,13 @@ export default class View {
       let i = 0;
       while (!getGame().turnIsFinished && !getGame().isFinished) {
         const game = getGame();
-        // console.log(getGame().turnIsFinished);
-        // console.log(`turn f:${game.turnIsFinished}, game:${game.isFinished}`);
         await handler()
             .then((response) => {
-              // console.log(response.card.cards[0].code);
               if (game.turn === 'PLAYER' || game.dealerHasMaxPoint) {
                 game.playerCard = response.card.cards[0];
               } else {
                 game.dealerCard = response.card.cards[0];
               }
-              // game.turn === 'PLAYER' ?
-              //   game.playerCard = response.card.cards[0]:
-              //   game.dealerCard = response.card.cards[0];
               game.turn === 'PLAYER' ?
                 this.playerCard.src = game.playerCard.image:
                 this.dealerCard.src = game.dealerCard.image;
@@ -171,7 +165,6 @@ export default class View {
                 this.disableButton(this.stopDraw);
                 this.disableButton(this.drawCard);
                 this.disableButton(this.shuffleDeck);
-                console.log('You lost !');
               }
 
               if (game.turn === 'DEALER') {
@@ -183,15 +176,10 @@ export default class View {
               }
 
               // Handle burned card for dealer
-              console.log(getGame().dealerScore);
               if (getGame().dealerHasMaxPoint && getGame.dealerScore != 21) {
                 this.dealerCardNotDrawedText.textContent = 'Card burned';
                 this.dealerCardNotDrawed.src = getGame().dealerCardNotAdded;
               }
-
-              // game.turn === 'PLAYER' ?
-              //   game.turn = 'DEALER':
-              //   game.turn = 'PLAYER';
             })
             .catch((err) => {
               console.error(err);
@@ -200,10 +188,7 @@ export default class View {
         if (i > 10) {
           break;
         }
-        // this.sleep(1000);
       }
-      // console.log(`turn f:${game.turnIsFinished}, game:${game.isFinished}`);
-      console.log(getGame());
       startTurn();
       // Enable new deck
       this.newDeck.classList.remove('disabledButton');
@@ -211,13 +196,10 @@ export default class View {
       this.newDeck.disabled = false;
       this.deckCanBeReloaded = true;
     };
-    // game.turnIsFinished = false;
-    // console.log(`turn f:${game.turnIsFinished}, game:${game.isFinished}`);
 
     // Bind buttons to avoid duplicated code
     this.drawCard.addEventListener('click', bindClickAndKeydown);
     window.addEventListener('keydown', (event) => {
-      console.log(window.event);
       if (event.key === 'd') bindClickAndKeydown();
     });
   }
@@ -230,9 +212,6 @@ export default class View {
   bindShuffleDeck(handler) {
     this.shuffleDeck.addEventListener('click', () => {
       handler()
-          // .then((response) => {
-          //   console.log(response);
-          // })
           .catch((err) => {
             console.error(err);
           });
@@ -250,7 +229,6 @@ export default class View {
       while (i < 10) {
         i++;
         if (getGame().isFinished) {
-          console.log('ici', getGame().dealerCardNotAdded);
           if (getGame().dealerHasMaxPoint && getGame.dealerScore != 21) {
             this.dealerCardNotDrawedText.textContent = 'Card burned';
             this.dealerCardNotDrawed.src = getGame().dealerCardNotAdded;

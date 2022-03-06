@@ -54,10 +54,6 @@ export default class Controller {
     return await this.model.shuffleDeck();
   };
 
-  // handleEndTurn = () => {
-  //   return this.model.endTurn();
-  // };
-
   handleStartTurn = () => {
     return this.model.startTurn();
   };

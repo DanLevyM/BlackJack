@@ -8,9 +8,6 @@ const cardValues = [
  */
 export function updateScores(game) {
   try {
-    // console.log(game.turn);
-    // console.log('is finished:', game.isFinished);
-    // console.log('dealerhas max point:', game.dealerHasMaxPoint);
     let number = (game.card.cards[0].code).substring(0, 1);
 
     if (cardValues.includes(number)) {
@@ -30,9 +27,6 @@ export function updateScores(game) {
       }
       game.turnIsFinished = true;
     }
-    // game.turn === 'PLAYER' ?
-    //   game.playerScore += number :
-    //   game.dealerScore += number;
 
     if (game.playerScore > 21) game.isFinished = true;
   } catch (e) {
@@ -45,7 +39,6 @@ export function updateScores(game) {
  * @param {object} game
  */
 export function dealerDrawToEndGame(game) {
-  console.log(game);
   let number = (game.card.cards[0].code).substring(0, 1);
 
   if (cardValues.includes(number)) {
@@ -55,7 +48,7 @@ export function dealerDrawToEndGame(game) {
   }
 
   if (game.dealerScore + number > 21) {
-    console.log('dealer has more than 21. game should stop');
+    // console.log('dealer has more than 21. game should stop');
     game.dealerCardNotAdded = game.card.cards[0].image;
     game.dealerHasMaxPoint = true;
     game.isFinished = true;
@@ -63,5 +56,4 @@ export function dealerDrawToEndGame(game) {
   }
 
   game.dealerScore += number;
-  console.log(game.dealerScore);
 }
