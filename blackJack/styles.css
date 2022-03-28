@@ -25,17 +25,22 @@ body {
     text-align: center;
   }
 
+  #card_deck{
+    padding-top: 10%;
+    width: 130px;
+  }
+
   #cardsRemaining {
       font-size: 2rem;
   }
 
   #dealerScore {
-        font-size: 2rem;
-    }
+      font-size: 2rem;
+  }
 
-    #playerScore {
-        font-size: 2rem;
-    }
+  #playerScore {
+      font-size: 2rem;
+  }
   
   
   /* ------------------------------------------------ */
