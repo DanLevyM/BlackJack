@@ -1,0 +1,196 @@
+body {
+    background-image: url("./asset/img/table_bj.PNG");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5%;
+  }
+  
+  h1 {
+    text-align: center;
+    margin: 0;
+  }
+  
+  .title {
+      text-decoration: underline;
+  }
+  /* ------------------------------------------------ */
+  /* ------------------ LEFT ----------------------- */
+  /* ------------------------------------------------ */
+  #left {
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+  }
+
+  #cardsRemaining {
+      font-size: 2rem;
+  }
+
+  #dealerScore {
+        font-size: 2rem;
+    }
+
+    #playerScore {
+        font-size: 2rem;
+    }
+  
+  
+  /* ------------------------------------------------ */
+  /* ------------------ BOARD ----------------------- */
+  /* ------------------------------------------------ */
+  #root {
+    height: 35em;
+    width: 100%;
+    /* margin: 0 auto; */
+    border-radius: 5px;
+    color: white;
+  }
+  
+  #dealer_content {
+    height: 10%;
+    padding-bottom: 30px;
+    color: white;
+    font-weight: bold;
+  }
+  
+  #board {
+    height: 60%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  #yourCard {
+      font-size: 2.3rem;
+      position: absolute;
+      padding-left: 20%;
+      top: 60%;
+  }
+  
+  /* ------------------------------------------------ */
+  /* ------------------ BUTTONS --------------------- */
+  /* ------------------------------------------------ */
+  #buttons {
+    display: flex;
+    justify-content: center;
+    height: 20%;
+    padding-top: 50px;
+  }
+  
+  .button {
+    border: none;
+    color: white;
+    padding: 0 60px;
+    margin: 0 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 10px;
+    transition-duration: 0.4s;
+    width: 13em;
+  }
+  
+  .newDeck {
+    background-color: #e7e7e7;
+    color: black;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  
+  .newDeck:hover {
+    background-color: #807777;
+    color: white;
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+      0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  }
+  
+  .disabledButton {
+    background-color: #a7a7a7;
+    color: black;
+  }
+  
+  .drawCard {
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #008cba;
+    color: black;
+  }
+  
+  .drawCard:hover {
+    background-color: #035a77;
+    color: white;
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+      0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  }
+  
+  .drawedCard {
+    width: 100px;
+  }
+  
+  /* ------------------------------------------------ */
+  /* ------------------ RIGHT ----------------------- */
+  /* ------------------------------------------------ */
+  #right {
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+  }
+
+  #dealerCardNotDrawedText {
+      padding-top: 10%;
+  }
+  
+  /* ------------------------------------------------ */
+  /* ------------------ MODAL ----------------------- */
+  /* ------------------------------------------------ */
+  
+  /* The Modal (background) */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  /* ------------------------------------------------ */
+  /* ------------------ RESPONSIVE ------------------ */
+  /* ------------------------------------------------ */
+  @media only screen and (max-width: 600px) {
+    #root {
+      width: 96%;
+    }
+  }
+  
