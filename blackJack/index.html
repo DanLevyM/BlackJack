@@ -18,30 +18,35 @@
 </div>
 
 <body id="body">
-  <div id="left">
-    <h1 class="title">Deck</h1>
-    <img id="card_deck" src="./asset/img/back-card.png" alt="carddeck"/>
-    <h4 id="cardsRemaining"></h4>
-    <h4 id="dealerScore"></h4>
-    <h4 id="playerScore"></h4>
-    <h4>PS: Ace give 0 point</h4>
-  </div>
-  <div id="root">
-    <h1 id="dealer_content">Dealer Card :</h1>
-    <div id="board" class="board">
-    </div>
-    <span id="yourCard">Your Card :</span>
-    <div></div>
-    <div id="buttons">
-      <button id="newDeck" class="button newDeck">New deck</button>
-      <button id="drawCard" class="button disabledButton">Draw card</button>
-      <button id="stopDraw" class="button disabledButton">Stop Draw</button>
-      <button id="shuffleDeck" class="button disabledButton">Shuffle deck</button>
-    </div>
-  </div>
-  <div id="right">
-    <h1 class="title">Card Burned</h1>
-    <p id="dealerCardNotDrawedText"></p>
+  <div class="container all">
+      <div id="left">
+        <h1 class="title">Deck</h1>
+        <img id="card_deck" src="./asset/img/back-card.png" alt="carddeck"/>
+        <h4 id="cardsRemaining"></h4>
+        <h4 id="dealerScore"></h4>
+        <h4 id="playerScore"></h4>
+        <h4>PS: Ace give 0 point</h4>
+      </div>
+      <div id="root">
+        <h1 id="dealer_content">Dealer Card :</h1>
+        <div id="board" class="board">
+        </div>
+        <div class="h-195 text-aligne-center">
+          <h2 class="youcart">Your Card :</h2>
+          <div id="yourCard" class="text-aligne-center"></div>
+        </div>
+        <div></div>
+        <div id="buttons">
+          <button id="newDeck" class="button newDeck">New deck</button>
+          <button id="drawCard" class="button disabledButton">Draw card</button>
+          <button id="stopDraw" class="button disabledButton">Stop Draw</button>
+          <button id="shuffleDeck" class="button disabledButton">Shuffle deck</button>
+        </div>
+      </div>
+      <div id="right">
+        <h1 class="title">Card Burned</h1>
+        <p id="dealerCardNotDrawedText"></p>
+      </div>
   </div>
   <script src="./index.js" type="module"></script>
 </body>

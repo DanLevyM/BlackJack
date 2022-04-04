@@ -20,6 +20,7 @@ export default class View {
     this.dealerScore = document.getElementById('dealerScore');
     this.playerScore = document.getElementById('playerScore');
     this.board = document.getElementById('board');
+    this.yourCard = document.getElementById('yourCard');
     this.newDeck = document.getElementById('newDeck');
     this.drawCard = document.getElementById('drawCard');
     this.shuffleDeck = document.getElementById('shuffleDeck');
@@ -36,7 +37,7 @@ export default class View {
     this.playerCard = this.createElement('img', 'drawedCard');
     this.board.append(this.dealerCard);
     this.right.append(this.dealerCardNotDrawed);
-    this.board.append(this.playerCard);
+    this.yourCard.append(this.playerCard);
 
     // Get the <span> element that closes the modal
     const span = document.getElementsByClassName('close')[0];
